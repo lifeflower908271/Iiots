@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Iiots.Pages.ZigbeeDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Iiots.Pages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:s="https://github.com/canton7/Stylet"
+             d:DataContext="{d:DesignInstance local:ZigbeeDataViewModel}"
+             mc:Ignorable="d">
+
+    <Border Padding="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"
+                           FontWeight="Bold" Text="类型： " />
+                <TextBlock VerticalAlignment="Center" Text="{Binding SensorType}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                <TextBlock FontWeight="Bold" Text="数据： " />
+                <TextBlock Text="{Binding Value}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                <TextBlock FontWeight="Bold" Text="时间： " />
+                <TextBlock Text="{Binding Date}" />
+            </StackPanel>
+        </Grid>
+
+    </Border>
+
+
+</UserControl>
