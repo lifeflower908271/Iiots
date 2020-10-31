@@ -119,7 +119,9 @@
 
                 <ScrollViewer Grid.Column="1" Margin="10,0,0,0">
                     <StackPanel>
-                        <ListBox ItemsSource="{Binding ZigbeeFourChannel}" Style="{DynamicResource MaterialDesignListBox}">
+                        <ListBox HorizontalContentAlignment="Stretch"
+                                 ItemsSource="{Binding ZigbeeFourChannel}"
+                                 Style="{DynamicResource MaterialDesignListBox}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <ContentControl s:View.Model="{Binding}" />
@@ -127,7 +129,9 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
 
-                        <ListBox ItemsSource="{Binding ZigbeeDatas}" Style="{DynamicResource MaterialDesignListBox}">
+                        <ListBox HorizontalContentAlignment="Stretch"
+                                 ItemsSource="{Binding ZigbeeDatas}"
+                                 Style="{DynamicResource MaterialDesignListBox}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <ContentControl s:View.Model="{Binding}" />
