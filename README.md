@@ -7,3 +7,6 @@
 
 支持的框架版本：
 .Net Framework 4.7.2
+
+
+![Image](https://github.com/lifeflower908271/Iiots/blob/master/Mockup/1.jpg)
