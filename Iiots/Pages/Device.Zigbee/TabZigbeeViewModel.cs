@@ -54,7 +54,22 @@ namespace Iiots.Pages
         public ZigbeeDataViewModel DatSrcAirQuality { get; set; }
         public ZigbeeDataViewModel DatSrcCombustibleGas { get; set; }
         public ZigbeeDataViewModel DatSrcFire { get; set; }
-        public ZigbeeDataViewModel DatSrcFourChannel { get; set; }
+
+        /// <summary>
+        /// Zigbee采集数据可视化集合
+        /// </summary>
+        public ObservableCollection<ZigbeeDataViewModel> ZigbeeDatas { get; set; } = null;
+
+        public ZigbeeFourChannelViewModel DatSrcFourChannel1 { get; set; }
+        public ZigbeeFourChannelViewModel DatSrcFourChannel2 { get; set; }
+        public ZigbeeFourChannelViewModel DatSrcFourChannel3 { get; set; }
+        public ZigbeeFourChannelViewModel DatSrcFourChannel4 { get; set; }
+
+        /// <summary>
+        /// Zigbee四通道数据模型集合
+        /// </summary>
+        public ObservableCollection<ZigbeeFourChannelViewModel> ZigbeeFourChannel { get; set; } = null;
+
 
         /// <summary>
         /// 配置视图使能
@@ -65,11 +80,6 @@ namespace Iiots.Pages
         /// 后台任务处理状态
         /// </summary>
         public bool IsLoading => !VIEW_EN;
-
-        /// <summary>
-        /// Zigbee采集数据可视化集合
-        /// </summary>
-        public ObservableCollection<ZigbeeDataViewModel> ZigbeeDatas { get; set; } = null;
 
         /// <summary>
         /// 双联继电器序列号
@@ -171,14 +181,28 @@ namespace Iiots.Pages
                 DatSrcAirQuality = new ZigbeeDataViewModel("空气质量", string.Empty, string.Empty);
                 DatSrcCombustibleGas = new ZigbeeDataViewModel("可燃气", string.Empty, string.Empty);
                 DatSrcFire = new ZigbeeDataViewModel("火焰", string.Empty, string.Empty);
-                DatSrcFourChannel = new ZigbeeDataViewModel("四通道模拟", string.Empty, string.Empty);
                 ZigbeeDatas.Add(DatSrcTemperatureAndHumidity);
                 ZigbeeDatas.Add(DatSrcBodyInfrared);
                 ZigbeeDatas.Add(DatSrcLight);
                 ZigbeeDatas.Add(DatSrcAirQuality);
                 ZigbeeDatas.Add(DatSrcCombustibleGas);
                 ZigbeeDatas.Add(DatSrcFire);
-                ZigbeeDatas.Add(DatSrcFourChannel);
+
+
+                if (ZigbeeFourChannel == null)
+                    ZigbeeFourChannel = new ObservableCollection<ZigbeeFourChannelViewModel>();
+                else
+                    ZigbeeFourChannel.Clear();
+
+                DatSrcFourChannel1 = new ZigbeeFourChannelViewModel("通道1");
+                DatSrcFourChannel2 = new ZigbeeFourChannelViewModel("通道2");
+                DatSrcFourChannel3 = new ZigbeeFourChannelViewModel("通道3");
+                DatSrcFourChannel4 = new ZigbeeFourChannelViewModel("通道4");
+
+                ZigbeeFourChannel.Add(DatSrcFourChannel1);
+                ZigbeeFourChannel.Add(DatSrcFourChannel2);
+                ZigbeeFourChannel.Add(DatSrcFourChannel3);
+                ZigbeeFourChannel.Add(DatSrcFourChannel4);
 
                 Zigbee.DataReceived += Zigbee_DataReceived;
 
@@ -233,8 +257,15 @@ namespace Iiots.Pages
                             DatSrcFire.Date = DateTime.Now.ToString();
                             break;
                         case SensorType.FourChannel:
-                            DatSrcFourChannel.Value = $@"V1:{data.Value1}  V2:{data.Value2}  V3:{data.Value3}  V4:{data.Value4}";
-                            DatSrcFourChannel.Date = DateTime.Now.ToString();
+                            DatSrcFourChannel1.Date = DateTime.Now.ToString();
+                            DatSrcFourChannel2.Date = DateTime.Now.ToString();
+                            DatSrcFourChannel3.Date = DateTime.Now.ToString();
+                            DatSrcFourChannel4.Date = DateTime.Now.ToString();
+
+                            ZigbeeFourChannelConvertSet(DatSrcFourChannel1, data.Value1);
+                            ZigbeeFourChannelConvertSet(DatSrcFourChannel2, data.Value2);
+                            ZigbeeFourChannelConvertSet(DatSrcFourChannel3, data.Value3);
+                            ZigbeeFourChannelConvertSet(DatSrcFourChannel4, data.Value4);
                             break;
                         default:
                             break;
@@ -243,6 +274,45 @@ namespace Iiots.Pages
             });
             thread.IsBackground = true;
             thread.Start();
+        }
+
+        private void ZigbeeFourChannelConvertSet(ZigbeeFourChannelViewModel channel, double value)
+        {
+            switch (channel.Model.Value)
+            {
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.CURRENT_ELECTRIC:
+                    channel.Value = $@"{value}A";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.SOIL_TEMPERATUER:
+                    channel.Value = $@"{FourChannelConvert.Temperature(value)}°C";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.WATER_TEMPERATURE:
+                    channel.Value = $@"{FourChannelConvert.WaterTemperature(value)}°C";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.SOIL_MOISTURE:
+                    channel.Value = $@"{FourChannelConvert.SoilMoisture(value)}%RH";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.WATER_LEVEL:
+                    channel.Value = $@"{FourChannelConvert.WaterLevel(value)}m";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.LIGHT:
+                    channel.Value = $@"{FourChannelConvert.Light(value)}Lux";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.TEMPERATURE:
+                    channel.Value = $@"{FourChannelConvert.Temperature(value)}°C";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.HUMIDITY:
+                    channel.Value = $@"{FourChannelConvert.Humidity(value)}%RH";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.NOICE:
+                    channel.Value = $@"{FourChannelConvert.Noice(value)}Db";
+                    break;
+                case ZigbeeCfgSrc.FourChannelModel.TYPE.CO2:
+                    channel.Value = $@"{FourChannelConvert.CO2(value)}PPM";
+                    break;
+                default:
+                    break;
+            }
         }
 
         public bool CanDisConnect
@@ -269,6 +339,8 @@ namespace Iiots.Pages
                     Zigbee = null;
                     ZigbeeDatas?.Clear();
                     ZigbeeDatas = null;
+                    ZigbeeFourChannel?.Clear();
+                    ZigbeeFourChannel = null;
                     System.Windows.Input.CommandManager.InvalidateRequerySuggested();
                     _windowManager.ShowMessageBox("断开成功！", "提示");
                 });
@@ -283,7 +355,7 @@ namespace Iiots.Pages
         {
             Thread thread = new Thread(() =>
             {
-                if(DoubleDelaySerialNum != null)
+                if (DoubleDelaySerialNum != null)
                 {
                     var serialNum = (int)DoubleDelaySerialNum;
                     Zigbee.DoubleRelay(serialNum, ZigbeeUnitNum.Value, Relays.On);
