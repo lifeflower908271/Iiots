@@ -117,17 +117,31 @@
                 </StackPanel>
 
 
+                <ScrollViewer Grid.Column="1" Margin="10,0,0,0">
+                    <StackPanel>
+                        <ListBox HorizontalContentAlignment="Stretch"
+                                 ItemsSource="{Binding ZigbeeFourChannel}"
+                                 Style="{DynamicResource MaterialDesignListBox}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl s:View.Model="{Binding}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
 
-                <ListBox Grid.Column="1"
-                         Margin="10,0,0,0"
-                         ItemsSource="{Binding ZigbeeDatas}"
-                         Style="{DynamicResource MaterialDesignListBox}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl s:View.Model="{Binding}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                        <ListBox HorizontalContentAlignment="Stretch"
+                                 ItemsSource="{Binding ZigbeeDatas}"
+                                 Style="{DynamicResource MaterialDesignListBox}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl s:View.Model="{Binding}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+
+
 
 
             </Grid>

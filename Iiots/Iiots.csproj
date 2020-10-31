@@ -97,15 +97,19 @@
     <Compile Include="Pages\Device.UHF\TabUHFView.xaml.cs">
       <DependentUpon>TabUHFView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Device.UHF\TabUHFViewModel.cs" />
     <Compile Include="Pages\Device.Zigbee\DTO.Data\ZigbeeDataView.xaml.cs">
       <DependentUpon>ZigbeeDataView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Device.Zigbee\DTO.Data\ZigbeeDataViewModel.cs" />
+    <Compile Include="Pages\Device.Zigbee\DTO.FourChannel\ZigbeeFourChannelView.xaml.cs">
+      <DependentUpon>ZigbeeFourChannelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Device.Zigbee\DTO.FourChannel\ZigbeeFourChannelViewModel.cs" />
     <Compile Include="Pages\Device.Zigbee\TabZigbeeView.xaml.cs">
       <DependentUpon>TabZigbeeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Device.Zigbee\TabZigbeeViewModel.cs" />
-    <Compile Include="Pages\Device.UHF\TabUHFViewModel.cs" />
     <Compile Include="Utilities\BitmapConvert.cs" />
     <Compile Include="Model\CameraCfg.cs" />
     <Compile Include="Utilities\Memory\Cache.cs" />
@@ -187,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Device.Zigbee\DTO.Data\ZigbeeDataView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Device.Zigbee\DTO.FourChannel\ZigbeeFourChannelView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
